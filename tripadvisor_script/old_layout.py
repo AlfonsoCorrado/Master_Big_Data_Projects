@@ -5,6 +5,7 @@ from selenium.webdriver.support.expected_conditions import staleness_of
 import time
 import re
 from json_lib import *
+from word_dict import *
 
 
 def old_get_info(log, driver, poi_dict, wait):
@@ -155,7 +156,7 @@ def old_next_page(log, driver, wait, lang, ID, url, reviews, page, n_page, or_pa
     return 1
 
 
-def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang):
+def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang, dot):
     # Reviews
     log.info('Start scraping Reviews')
     n_page = 0
@@ -293,21 +294,28 @@ def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
 
             log.info('Get Date')
             try:
-                date = review.find_element_by_xpath(".//span[@class='_34Xs-BQm']").text.split(':')[-1].strip()
-                date = date[:3]+date[-5:]
+                date = review.find_element_by_xpath(".//span[@class='_34Xs-BQm']").text.split(':')[-1].strip().lower()
+                month = date.split()[0]
+                year = date.split()[1]
+                if dot == 'it':
+                    month = it_old_month_dict[month]
+                if dot == 'com':
+                    month = com_old_month_dict[month]
             except:
                 log.warning('No Date')
-                date = None
-            review_dict['review']['date'] = date
+                month = None
+                year = None
+            review_dict['review']['month'] = month
+            review_dict['review']['year'] = year
 
             log.info('Get Visit Type')
             try:
                 visit_type = review.find_element_by_xpath(".//span[@class='_2bVY3aT5']").text.split(' ')[-1].strip()
+                if dot == 'it':
+                    visit_type = it_old_type_dict[visit_type]
             except:
                 log.warning('No Visit Type')
                 visit_type = None
-            if visit_type == 'affari':
-                visit_type = 'lavoro'
             review_dict['review']['visit_type'] = visit_type
 
             review_dict['review']['lang'] = lang
@@ -338,7 +346,7 @@ def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
 
             reviews_dict['reviews'].append(review_dict)
 
-            if None in [link, date, title, like, text]:
+            if None in [link, month, year, title, like, text]:
                 errors_dict['errors'].append(review_dict)
 
         log.info('Write Json file')

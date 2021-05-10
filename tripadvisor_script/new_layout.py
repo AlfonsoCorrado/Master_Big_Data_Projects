@@ -5,6 +5,7 @@ from selenium.webdriver.support.expected_conditions import staleness_of
 import time
 import re
 from json_lib import *
+from word_dict import *
 
 
 def new_get_info(log, driver, poi_dict, wait):
@@ -162,7 +163,7 @@ def new_next_page(log, driver, wait, lang, ID, url, reviews, page, n_page, or_pa
     return 1
 
 
-def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang):
+def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang, dot):
     # Reviews
     log.info('Start scraping Reviews')
     n_page = 0
@@ -261,7 +262,11 @@ def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
             log.info('Get Rating')
             try:
                 rating = WebDriverWait(review, wait).until(EC.presence_of_element_located((By.XPATH, "..//div[@class='_3HXgtLZQ']/following::div[1]/*['svg']"))).get_attribute('title')
-                review_dict['review']['rating'] = rating.split(' ')[1].replace(',', '')
+                if dot == 'it':
+                    rating = rating.split()[1].replace(',', '')
+                elif dot == 'com':
+                    rating = rating.split()[0].replace('.', '')
+                review_dict['review']['rating'] = rating
             except Exception as e:
                 log.error(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
                 print(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
@@ -282,19 +287,27 @@ def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
             log.info('Get Date and Visit Type')
             try:
                 date_and_visit = review.find_element_by_xpath("..//div[@class='_3JxPDYSx']").text.split('\u2022')
-                date = date_and_visit[0].strip()
+                date = date_and_visit[0].strip().lower()
+                month = date.split()[0]
+                year = date.split()[1]
+                if dot == 'it':
+                    month = it_new_month_dict[month]
                 if len(date_and_visit) > 1:
                     visit_type = date_and_visit[1].strip().lower()
-                    if visit_type == 'coppie':
-                        visit_type = 'coppia'
+                    if dot == 'it':
+                        visit_type = it_new_type_dict[visit_type]
+                    elif dot == 'com':
+                        visit_type = com_new_type_dict[visit_type]
                 else:
                     visit_type = None
                     log.warning('No Visit Type')
             except:
                 log.warning('No Date and Visit Type')
-                date = None
+                month = None
+                year = None
                 visit_type = None
-            review_dict['review']['date'] = date
+            review_dict['review']['month'] = month
+            review_dict['review']['year'] = year
             review_dict['review']['visit_type'] = visit_type
 
             review_dict['review']['lang'] = lang
@@ -325,7 +338,7 @@ def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
 
             reviews_dict['reviews'].append(review_dict)
 
-            if None in [link, date, title, like, text]:
+            if None in [link, month, year, title, like, text]:
                 errors_dict['errors'].append(review_dict)
 
         log.info('Write Json file')
