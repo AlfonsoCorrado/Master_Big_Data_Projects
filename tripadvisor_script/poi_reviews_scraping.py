@@ -8,16 +8,16 @@ from log_config import *
 from old_layout import *
 from new_layout import *
 
-inputfile = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\tripadvisor_output\\poi_list\\poi_list_Milan.csv"
-outputpath = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\tripadvisor_output\\reviews\\"
-log_path = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\tripadvisor_output\\reviews\\log\\"
+inputfile = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\output\\tripadvisor_output\\poi_list\\poi_list_Milan.csv"
+outputpath = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\output\\tripadvisor_output\\reviews\\"
+log_path = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\output\\tripadvisor_output\\reviews\\log\\"
 
 
 #[start, end] = intervallo chiuso da ambo i lati
 #start parte da uno
-START_IDX = 80
+START_IDX = 1
 #end è compreso in automatico
-END_IDX = 80
+END_IDX = 1
 
 
 languages = ['Italiano', 'English']
