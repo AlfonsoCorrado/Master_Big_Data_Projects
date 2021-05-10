@@ -17,7 +17,7 @@ log_path = "C:\\Users\\alfon\\Documents\\Master\\Progettone\\scraping\\output\\t
 #start parte da uno
 START_IDX = 1
 #end è compreso in automatico
-END_IDX = 1
+END_IDX = 5
 
 
 languages = ['Italiano', 'English']
@@ -87,8 +87,10 @@ for row in data[START_IDX:END_IDX+1]:
 
         if lang == 'Italiano':
             url = url_it
+            dot = 'it'
         elif lang == 'English':
             url = url_com
+            dot = 'com'
 
         print(f'\nIndex: {index}')
         print(f'ID: {ID}')
@@ -136,9 +138,9 @@ for row in data[START_IDX:END_IDX+1]:
         print('layout: ' + layout)
 
         if layout == 'old':
-            old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang)
+            old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang, dot)
         elif layout == 'new':
-            new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang)
+            new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_dict, errors_dict, lang, dot)
 
         print(f'End Scraping: {ID}, language:{lang}')
         log.info(f'End Scraping: {ID}, language:{lang}\n')
