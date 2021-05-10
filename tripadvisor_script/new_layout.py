@@ -250,8 +250,8 @@ def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
                 user = WebDriverWait(review, wait).until(EC.presence_of_element_located((By.XPATH, "..//div[@class='_2nBYkPk3']//a"))).get_attribute('href').split('/')[-1]
                 review_dict['user'] = user
             except Exception as e:
-                log.error(f'Skipping review {i}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
-                print(f'Skipping review! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                log.error(f'Skipping review {i+1}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                print(f'Skipping review {i+1}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
                 print(e)
                 log.error(e)
                 continue
@@ -263,8 +263,8 @@ def new_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
                 rating = WebDriverWait(review, wait).until(EC.presence_of_element_located((By.XPATH, "..//div[@class='_3HXgtLZQ']/following::div[1]/*['svg']"))).get_attribute('title')
                 review_dict['review']['rating'] = rating.split(' ')[1].replace(',', '')
             except Exception as e:
-                log.error(f'Skipping review {i}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
-                print(f'Skipping review! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                log.error(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                print(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
                 print(e)
                 log.error(e)
                 continue

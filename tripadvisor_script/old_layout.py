@@ -261,8 +261,8 @@ def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
                 #user = review.find_element_by_xpath(".//div[@class='_2fxQ4TOx']//a").get_attribute('href').split('/')[-1]
                 review_dict['user'] = user
             except Exception as e:
-                log.error(f'Skipping review {i}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
-                print(f'Skipping review! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                log.error(f'Skipping review {i+1}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                print(f'Skipping review {i+1}! No User. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
                 print(e)
                 log.error(e)
                 continue
@@ -275,8 +275,8 @@ def old_get_reviews(log, outputfile, errorfile, ID, url, driver, wait, reviews_d
                 #rating = review.find_element_by_xpath(".//div[@class='nf9vGX55']/span").get_attribute('class').split('_')[-1]
                 review_dict['review']['rating'] = rating
             except Exception as e:
-                log.error(f'Skipping review {i}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
-                print(f'Skipping review! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                log.error(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
+                print(f'Skipping review {i+1}! No Rating. n_page: {n_page} , or_page: {or_page} , url: {current_url}')
                 print(e)
                 log.error(e)
                 continue
