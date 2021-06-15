@@ -1,2 +1,2 @@
 # Deep Learning – Exam
-# Synthetic Speech Commands Dataset
+Synthetic Speech Commands Dataset
