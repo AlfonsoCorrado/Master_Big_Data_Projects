@@ -1,2 +1,2 @@
-# Scraping 
-Contiene tutti i codici utili allo scraping del progettone, divisi in cartelle
+# Master Big Data 2021
+Contiene i codici sviluppati per i vari progetti del master
